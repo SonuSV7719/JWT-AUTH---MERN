@@ -1,0 +1,49 @@
+Steps:
+
+✅️Mongodb Installation in Ubuntu:
+Reference
+--> https://www.geeksforgeeks.org/how-to-install-and-configure-mongodb-in-ubuntu/
+
+✅️1. Initialize a Node.js project:
+--> mkdir mern-auth
+--> cd mern-auth
+--> npm init -y
+	
+✅️2. Install Required Packages:
+
+--> npm install express mongoose dotenv bcryptjs jsonwebtoken cookie-parser cors
+--> npm install --save-dev nodemon
+
+✅️3. Create the project structure:
+--> mkdir config controllers middlewares models routes
+--> touch server.js
+
+
+✅️4. Configure Environment Variables
+Create a .env file to store your environment variables:
+
+	PORT=5000
+	MONGODB_URI=your_mongodb_connection_string
+	JWT_SECRET=your_jwt_secret
+	JWT_REFRESH_SECRET=your_jwt_refresh_secret
+	ACCESS_TOKEN_EXPIRATION=15m
+	REFRESH_TOKEN_EXPIRATION=7d
+
+
+File Structure
+
+	mern-auth/
+	├── config/
+	│   └── db.js
+	├── controllers/
+	│   └── authController.js
+	├── middlewares/
+	│   ├── authMiddleware.js
+	│   └── logger.js
+	├── models/
+	│   └── User.js
+	├── routes/
+	│   └── auth.js
+	├── .env
+	└── server.js
+

@@ -1,0 +1,168 @@
+✅️1. Application-Level Middleware
+Application-level middleware is bound to an instance of the express object and is used across the entire application.
+
+	const express = require('express');
+	const app = express();
+
+	// Application-level middleware: Logging each request
+	app.use((req, res, next) => {
+	    console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+	    next();
+	});
+
+	// Application-level middleware: Setting a custom header
+	app.use((req, res, next) => {
+	    res.setHeader('X-Powered-By', 'Awesome App');
+	    next();
+	});
+
+	app.get('/', (req, res) => {
+	    res.send('Hello, World!');
+	});
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+✅️2. Router-Level Middleware
+Router-level middleware works similarly to application-level middleware but is bound to an instance of express.Router().
+
+	const express = require('express');
+	const app = express();
+	const router = express.Router();
+
+	// Router-level middleware: Logging request details
+	router.use((req, res, next) => {
+	    console.log(`Router Middleware - Request Method: ${req.method}, Request URL: ${req.url}`);
+	    next();
+	});
+
+	router.get('/user/:id', (req, res) => {
+	    res.send(`User ID: ${req.params.id}`);
+	});
+
+	app.use('/api', router);
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+	
+✅️3. Built-in Middleware
+Express comes with some built-in middleware for common tasks like serving static files and parsing request bodies.
+
+	const express = require('express');
+	const app = express();
+
+	// Built-in middleware: Parse JSON bodies
+	app.use(express.json());
+
+	// Built-in middleware: Parse URL-encoded bodies
+	app.use(express.urlencoded({ extended: true }));
+
+	app.post('/submit', (req, res) => {
+	    res.send(`Received data: ${JSON.stringify(req.body)}`);
+	});
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+	
+✅️4. Third-Party Middleware
+There are many third-party middleware packages available for Express. Here are a few examples:
+
+Example: Using morgan for logging
+
+	const express = require('express');
+	const morgan = require('morgan');
+	const app = express();
+
+	// Third-party middleware: Logging HTTP requests using morgan
+	app.use(morgan('combined'));
+
+	app.get('/', (req, res) => {
+	    res.send('Hello, World!');
+	});
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+	
+Example: Using cors for enabling CORS
+
+	const express = require('express');
+	const cors = require('cors');
+	const app = express();
+
+	// Third-party middleware: Enable CORS
+	app.use(cors());
+
+	app.get('/', (req, res) => {
+	    res.send('CORS enabled');
+	});
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+✅️5. Error-Handling Middleware
+Error-handling middleware is defined with four arguments: err, req, res, and next.
+
+	const express = require('express');
+	const app = express();
+
+	// Normal middleware
+	app.get('/', (req, res) => {
+	    throw new Error('Something went wrong!');
+	});
+
+	// Error-handling middleware
+	app.use((err, req, res, next) => {
+	    console.error(err.stack);
+	    res.status(500).send('Something broke!');
+	});
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+	
+✅️Combining Multiple Middleware Functions
+You can also combine multiple middleware functions for a single route. Here's an example:
+
+	const express = require('express');
+	const app = express();
+
+	const checkUser = (req, res, next) => {
+	    if (req.query.user === 'admin') {
+		next();
+	    } else {
+		res.status(403).send('Forbidden');
+	    }
+	};
+
+	const logTime = (req, res, next) => {
+	    console.log(`Request Time: ${new Date().toISOString()}`);
+	    next();
+	};
+
+	app.get('/secure', [checkUser, logTime], (req, res) => {
+	    res.send('Welcome, admin!');
+	});
+
+	app.listen(3000, () => {
+	    console.log('Server running on port 3000');
+	});
+	
+	
+Summary
+These examples illustrate the versatility and power of middleware in Express.js. Middleware functions can handle various tasks such as logging, parsing request bodies, enabling CORS, handling errors, and more. By structuring your application with middleware, you can keep your code modular, organized, and maintainable.
+
+
+
+
+
+
+
